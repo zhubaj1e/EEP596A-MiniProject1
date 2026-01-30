@@ -92,20 +92,11 @@ def load_sentence_transformer_model(model_name):
 def load_openai_client():
     """
     Load OpenAI client (cached to avoid multiple initializations)
-    Make sure to set OPENAI_API_KEY environment variable or in Streamlit secrets
+    Make sure to set OPENAI_API_KEY environment variable
     """
-    # Try getting from environment variable first
     api_key = os.getenv("OPENAI_API_KEY")
-    
-    # If not found, try Streamlit secrets (for Streamlit Cloud deployment)
     if not api_key:
-        try:
-            api_key = st.secrets.get("OPENAI_API_KEY")
-        except (FileNotFoundError, KeyError):
-            pass
-    
-    if not api_key:
-        st.warning("OpenAI API key not found. Please set OPENAI_API_KEY environment variable or in Streamlit secrets.")
+        st.warning("OpenAI API key not found. Please set OPENAI_API_KEY environment variable.")
         return None
     return OpenAI(api_key=api_key)
 
